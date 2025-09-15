@@ -1,0 +1,38 @@
+# Tigo Honduras Multimodal RAG System - Azure Optimized Requirements
+# This version removes numpy and scikit-learn for Azure App Service compatibility
+
+# FastAPI and web framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+
+# Pydantic for data validation
+pydantic==2.5.0
+
+# HTTP requests
+requests==2.31.0
+
+# Azure services
+openai>=1.0.0
+azure-search-documents>=11.4.0
+azure-core>=1.29.0
+azure-identity>=1.15.0
+
+# Image processing (without numpy dependency)
+Pillow==10.1.0
+
+# JSON and data handling
+python-json-logger==2.0.7
+
+# Environment and configuration
+python-dotenv==1.0.0
+
+# Type hints and development
+typing-extensions==4.8.0
+
+# Additional dependencies for production
+gunicorn>=21.2.0
+aiofiles>=23.2.1
+
+# Note: numpy and scikit-learn removed for Azure compatibility
+# Using pure Python implementations in core/math_utils.py instead

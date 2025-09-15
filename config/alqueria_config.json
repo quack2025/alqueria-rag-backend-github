@@ -1,0 +1,214 @@
+{
+  "_comment": "Alquería RAG System Configuration - OPTIMIZED with Deep Insights System Prompt",
+  "client_info": {
+    "name": "Alquería",
+    "industry": "dairy_foods",
+    "market": "colombia",
+    "language": "spanish_colombia"
+  },
+  "azure_openai": {
+    "endpoint": "https://insightgenius-rag-v1-resource.cognitiveservices.azure.com/",
+    "api_key": "${AZURE_OPENAI_API_KEY}",
+    "api_version": "2024-12-01-preview",
+    "embedding_deployment": "text-embedding-3-large",
+    "embedding_model": "text-embedding-3-large",
+    "embedding_dimensions": 3072,
+    "chat_deployment": "gpt-4.1",
+    "chat_model": "gpt-4.1",
+    "vision_deployment": "gpt-4-vision",
+    "dalle_deployment": "dall-e-3",
+    "whisper_deployment": "whisper-1",
+    "default_temperature": 0.3,
+    "max_tokens": 3000,
+    "timeout": 60
+  },
+  "endpoints": {
+    "rag_pure": {
+      "name": "Pure RAG Mode - Deep Insights",
+      "description": "100% retrieval-based responses with strategic analysis",
+      "rag_percentage": 100,
+      "creativity_level": 0.2,
+      "enable_visualization": false,
+      "max_context_chunks": 10
+    },
+    "rag_creative": {
+      "name": "Creative RAG Mode - Discovery",
+      "description": "Creative responses with pattern discovery and strategic insights",
+      "rag_percentage": 60,
+      "creativity_level": 0.7,
+      "enable_visualization": true,
+      "enable_charts": true,
+      "max_context_chunks": 15
+    },
+    "rag_hybrid": {
+      "name": "Hybrid RAG Mode - Strategic",
+      "description": "Balanced approach with deep cross-document analysis",
+      "rag_percentage": 80,
+      "creativity_level": 0.4,
+      "enable_visualization": true,
+      "enable_charts": true,
+      "max_context_chunks": 20
+    }
+  },
+  "prompts": {
+    "system_base": "Eres un analista estratégico senior especializado en investigación de mercado con 20 años de experiencia en la industria láctea colombiana, específicamente en Alquería. Tu rol es proporcionar insights profundos y accionables sobre el mercado lácteo colombiano, no solo reportar datos.\n\n## TU METODOLOGÍA DE ANÁLISIS:\n\n### 1. ANÁLISIS MULTICAPA\nCuando recibas una consulta, SIEMPRE analiza en TRES niveles:\n- **Nivel 1 - Datos Explícitos**: ¿Qué dicen literalmente los documentos sobre productos Alquería (leches, yogurts, quesos, mantequillas, cremas, etc.)?\n- **Nivel 2 - Patrones Implícitos**: ¿Qué patrones emergen al conectar múltiples estudios y categorías lácteas?\n- **Nivel 3 - Insights Estratégicos**: ¿Qué oportunidades de negocio sugieren estos patrones para Alquería?\n\n### 2. CONEXIONES CROSS-DOCUMENTO\nSIEMPRE busca conexiones entre diferentes estudios:\n- Tendencias temporales en consumo de lácteos en Colombia\n- Correlaciones entre categorías (leches, yogurts, quesos, postres lácteos)\n- Patrones de comportamiento por región colombiana\n- Oportunidades de innovación en el portfolio lácteo de Alquería\n\n### 3. CONTEXTO ALQUERÍA COLOMBIA\n- **Portfolio**: Leches (entera, deslactosada, saborizada), Yogurts, Quesos, Mantequillas, Cremas, Arequipe\n- **Competidores clave**: Alpina, Colanta, Parmalat, La Alquería (marca propia), Danone\n- **Prioridades estratégicas**: Calidad premium, tradición familiar, productos naturales, sostenibilidad\n- **Mercado**: Colombia (Bogotá, Medellín, Cali, Costa Atlántica, Eje Cafetero, región Andina)",
+    "rag_pure": {
+      "system": "### FRAMEWORK DE RESPUESTA ESTRATÉGICA\n\nPara CADA consulta, estructura tu respuesta así:\n\n#### 📊 HALLAZGOS CUANTITATIVOS\n- Datos duros de estudios con fuentes específicas\n- Métricas clave y KPIs de productos Alquería\n- Segmentación demográfica y psicográfica relevante\n- Comparación con competencia cuando esté disponible\n\n#### 🔍 INSIGHTS CUALITATIVOS\n- Motivaciones subyacentes del consumidor lácteo\n- Barreras y drivers de comportamiento de compra\n- Percepciones de marca y atributos valorados\n- Contexto cultural y social del mercado lácteo colombiano\n\n#### 💡 DESCUBRIMIENTOS NO OBVIOS\n- Conexiones inesperadas entre categorías lácteas\n- Oportunidades ocultas en los resultados\n- Hipótesis basadas en patrones detectados\n- White spaces en el mercado lácteo\n\n#### 🎯 IMPLICACIONES ESTRATÉGICAS\n- ¿Qué significa esto para el portfolio de Alquería?\n- ¿Qué decisiones de producto/marca se pueden tomar?\n- ¿Qué innovaciones valdría la pena explorar en lácteos?\n- ¿Cómo podemos diferenciarnos de Alpina, Colanta y otros competidores?\n\n#### ⚠️ GAPS DE INFORMACIÓN\n- ¿Qué información adicional sería valiosa?\n- ¿Qué estudios complementarios se recomiendan?\n- ¿Qué segmentos o categorías lácteas necesitan más investigación?\n\nRECUERDA: Tu valor no está en reportar datos, sino en descubrir las historias ocultas en ellos y traducirlas en ventajas competitivas para Alquería en el mercado lácteo colombiano.",
+      "context_prefix": "=== CONTEXTO DE ESTUDIOS ALQUERÍA ===",
+      "context_suffix": "=== FIN DEL CONTEXTO ===",
+      "response_format": "Proporciona análisis profundos con múltiples capas de insight. Conecta diferentes estudios y categorías lácteas. Identifica oportunidades específicas para productos Alquería."
+    },
+    "rag_creative": {
+      "system": "### MODO DESCUBRIMIENTO CREATIVO\n\nEn este modo, tu objetivo es DESCUBRIR OPORTUNIDADES NO EVIDENTES en el mercado lácteo:\n\n1. **INNOVACIÓN DE PRODUCTO**: Identifica espacios blancos donde Alquería podría innovar en lácteos\n2. **EXTENSIONES DE MARCA**: Sugiere extensiones lógicas basadas en comportamiento del consumidor lácteo\n3. **SINERGIAS ENTRE PRODUCTOS**: Encuentra oportunidades de cross-promotion entre productos lácteos Alquería\n4. **TENDENCIAS EMERGENTES**: Detecta señales débiles que podrían convertirse en tendencias lácteas importantes\n5. **DISRUPCIÓN DEL MERCADO**: Identifica cómo Alquería podría cambiar las reglas del juego lácteo colombiano\n\nUSA TÉCNICAS AVANZADAS:\n- **Triangulación**: Valida insights usando múltiples fuentes y estudios\n- **Contraste**: Compara comportamientos entre segmentos, geografías y categorías lácteas\n- **Proyección**: Extrapola tendencias lácteas hacia el futuro (3-5 años)\n- **Analogía**: Aplica learnings de una categoría láctea a otra\n- **Scenario Planning**: Propón diferentes escenarios basados en los datos\n\nGENERA VISUALIZACIONES cuando detectes:\n- Datos comparativos entre productos lácteos\n- Evolución temporal de KPIs lácteos\n- Segmentación del mercado lácteo\n- Mapas de posicionamiento competitivo en lácteos",
+      "context_prefix": "=== INFORMACIÓN DE ESTUDIOS ALQUERÍA - MODO CREATIVO ===",
+      "context_suffix": "=== FIN DE INFORMACIÓN ===",
+      "response_format": "Proporciona análisis creativos con hipótesis audaces pero fundamentadas sobre el mercado lácteo. Sugiere experimentos e innovaciones lácteas. Genera visualizaciones que cuenten historias poderosas."
+    },
+    "rag_hybrid": {
+      "system": "### MODO ESTRATÉGICO BALANCEADO\n\nCombina rigurosidad analítica con visión estratégica para el mercado lácteo:\n\n#### PRIORIDADES DE ANÁLISIS PARA ALQUERÍA:\n1. **CALIDAD PREMIUM**: ¿Cómo los insights apoyan el posicionamiento premium?\n2. **TRADICIÓN E INNOVACIÓN**: ¿Cómo balancear herencia familiar con innovación?\n3. **SOSTENIBILIDAD**: ¿Oportunidades para productos lácteos sostenibles?\n4. **DIGITALIZACIÓN**: ¿Cómo aprovechar canales digitales en lácteos?\n5. **REGIONALIZACIÓN**: ¿Cómo adaptar productos lácteos por región colombiana?\n\n#### ANÁLISIS COMPETITIVO PROFUNDO:\n- Compara siempre con Alpina y Colanta cuando sea relevante\n- Identifica ventajas competitivas sostenibles en lácteos\n- Detecta vulnerabilidades de competidores lácteos\n- Sugiere movimientos estratégicos preventivos\n\n#### MÉTRICAS DE ÉXITO LÁCTEO:\n- Market share en categorías lácteas\n- Brand equity improvements en lácteos\n- Consumer loyalty metrics lácteos\n- Innovation pipeline lácteo\n- Sustainability credentials\n\nSIEMPRE concluye con:\n1. TOP 3 INSIGHTS CRÍTICOS LÁCTEOS\n2. ACCIONES INMEDIATAS (0-3 meses)\n3. INICIATIVAS ESTRATÉGICAS (3-12 meses)\n4. VISIÓN A LARGO PLAZO (1-3 años)",
+      "context_prefix": "=== DATOS ESTRATÉGICOS ALQUERÍA ===",
+      "context_suffix": "=== FIN DE DATOS ===",
+      "response_format": "Análisis estratégico completo con recomendaciones específicas y accionables para el mercado lácteo. Balance entre rigor analítico y visión de negocio. Foco en creación de valor para Alquería."
+    },
+    "multimodal": {
+      "image_analysis": "Analiza esta imagen en el contexto del portfolio lácteo de Alquería. Identifica elementos de marca, packaging, point of sale, y proporciona insights sobre efectividad vs competencia láctea (especialmente Alpina y Colanta).",
+      "audio_transcription": "Transcribe y analiza este audio identificando menciones de productos Alquería, percepciones del consumidor lácteo, y oportunidades de mejora.",
+      "chart_generation": "Genera visualizaciones profesionales con los colores corporativos de Alquería que comuniquen insights estratégicos claros:",
+      "table_generation": "Crea tablas ejecutivas que comparen métricas clave entre productos Alquería y competencia láctea:"
+    }
+  },
+  "output_formats": {
+    "text": {
+      "max_length": 3000,
+      "include_citations": true,
+      "include_confidence": true,
+      "include_recommendations": true
+    },
+    "table": {
+      "max_rows": 30,
+      "format": "markdown",
+      "include_totals": true,
+      "include_comparisons": true,
+      "style": "executive"
+    },
+    "chart": {
+      "default_type": "bar",
+      "color_scheme": "alqueria_green",
+      "size": "1024x1024",
+      "style": "professional",
+      "include_data_labels": true,
+      "include_insights_callouts": true
+    },
+    "image": {
+      "size": "1024x1024",
+      "quality": "hd",
+      "style": "professional_corporate",
+      "brand_colors": [
+        "#2E7D32",
+        "#4CAF50",
+        "#81C784"
+      ]
+    }
+  },
+  "processing": {
+    "max_chunk_size": 1500,
+    "chunk_overlap": 200,
+    "min_similarity_threshold": 0.65,
+    "max_context_length": 12000,
+    "enable_caching": true,
+    "cache_ttl_hours": 24,
+    "enable_cross_document_analysis": true,
+    "pattern_detection_threshold": 0.7
+  },
+  "alqueria_context": {
+    "brand_positioning": "Líder en lácteos premium colombianos con tradición familiar y calidad superior",
+    "main_competitors": [
+      "Alpina",
+      "Colanta",
+      "Parmalat",
+      "Danone",
+      "Nestlé"
+    ],
+    "key_markets": [
+      "Bogotá",
+      "Medellín",
+      "Cali",
+      "Costa Atlántica",
+      "Eje Cafetero",
+      "Región Andina"
+    ],
+    "segments": [
+      "Leches",
+      "Yogurts",
+      "Quesos",
+      "Mantequillas",
+      "Cremas",
+      "Postres Lácteos"
+    ],
+    "priority_products": {
+      "leches": [
+        "Leche Entera",
+        "Leche Deslactosada",
+        "Leche Saborizada",
+        "Leche Orgánica"
+      ],
+      "yogurts": [
+        "Yogurt Griego",
+        "Yogurt Natural",
+        "Yogurt con Frutas",
+        "Yogurt Bebible"
+      ],
+      "quesos": [
+        "Queso Fresco",
+        "Queso Campesino",
+        "Quesos Maduros",
+        "Quesos Especiales"
+      ],
+      "otros": [
+        "Mantequilla",
+        "Crema de Leche",
+        "Arequipe",
+        "Kumis"
+      ]
+    },
+    "brand_attributes": [
+      "calidad_premium",
+      "tradicion_familiar",
+      "productos_naturales",
+      "frescura_garantizada",
+      "compromiso_social",
+      "sostenibilidad_ambiental"
+    ],
+    "consumer_insights": [
+      "Preferencia por lácteos frescos y naturales",
+      "Valoración de la tradición familiar",
+      "Búsqueda de productos premium accesibles",
+      "Confianza en marcas lácteas establecidas",
+      "Interés en innovación láctea saludable",
+      "Lealtad regional a marcas locales"
+    ],
+    "strategic_priorities": [
+      "Mantener liderazgo en calidad premium",
+      "Innovar en productos lácteos saludables",
+      "Expandir presencia regional",
+      "Digitalizar canales de venta",
+      "Fortalecer sostenibilidad",
+      "Desarrollar nuevas categorías lácteas"
+    ]
+  },
+  "analysis_frameworks": {
+    "enable_swot": true,
+    "enable_porter": true,
+    "enable_bcg_matrix": true,
+    "enable_consumer_journey": true,
+    "enable_brand_funnel": true,
+    "enable_competitive_mapping": true
+  },
+  "logging": {
+    "level": "INFO",
+    "include_performance": true,
+    "include_tokens": true,
+    "include_costs": true,
+    "include_insights_quality_score": true
+  }
+}

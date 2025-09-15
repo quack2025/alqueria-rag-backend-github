@@ -1,0 +1,201 @@
+{
+  "_comment": "Alpina RAG System Configuration - Azure OpenAI Only",
+  
+  "client_info": {
+    "name": "Alpina",
+    "industry": "food_beverages",
+    "market": "colombia",
+    "language": "spanish_colombia"
+  },
+  
+  "azure_openai": {
+    "endpoint": "https://insightgenius-rag-v1-resource.cognitiveservices.azure.com/",
+    "api_key": "${AZURE_OPENAI_API_KEY}",
+    "api_version": "2024-12-01-preview",
+    
+    "embedding_deployment": "text-embedding-3-large",
+    "embedding_model": "text-embedding-3-large",
+    "embedding_dimensions": 3072,
+    
+    "chat_deployment": "gpt-4.1",
+    "chat_model": "gpt-4.1",
+    "vision_deployment": "gpt-4-vision",
+    
+    "dalle_deployment": "dall-e-3",
+    "whisper_deployment": "whisper-1",
+    
+    "default_temperature": 0.1,
+    "max_tokens": 2000,
+    "timeout": 60
+  },
+  
+  "endpoints": {
+    "rag_pure": {
+      "name": "Pure RAG Mode",
+      "description": "100% retrieval-based responses using only vector search results",
+      "rag_percentage": 100,
+      "creativity_level": 0.0,
+      "enable_visualization": false,
+      "max_context_chunks": 5
+    },
+    "rag_creative": {
+      "name": "Creative RAG Mode", 
+      "description": "Creative responses with visualizations, blending RAG with LLM knowledge",
+      "rag_percentage": 60,
+      "creativity_level": 0.7,
+      "enable_visualization": true,
+      "enable_charts": true,
+      "max_context_chunks": 3
+    },
+    "rag_hybrid": {
+      "name": "Hybrid RAG Mode",
+      "description": "Balanced approach with configurable RAG/LLM ratio and optional visualizations",
+      "rag_percentage": 80,
+      "creativity_level": 0.3,
+      "enable_visualization": true,
+      "enable_charts": true,
+      "max_context_chunks": 4
+    }
+  },
+  
+  "prompts": {
+    "system_base": "Eres un asistente experto en análisis de mercado para Alpina, la empresa líder en productos lácteos de Colombia. Tienes acceso a estudios de mercado, investigaciones de marca y datos de consumidores específicos del mercado colombiano.",
+    
+    "rag_pure": {
+      "system": "Responde ÚNICAMENTE basándote en la información proporcionada en el contexto de documentos. No uses conocimiento general. Si la información no está en el contexto, indica claramente que no tienes esa información específica en los documentos disponibles.",
+      "context_prefix": "=== CONTEXTO DE DOCUMENTOS ===",
+      "context_suffix": "=== FIN DEL CONTEXTO ===",
+      "response_format": "Proporciona respuestas precisas y bien estructuradas basadas exclusivamente en el contexto proporcionado. Incluye citas específicas cuando sea relevante."
+    },
+    
+    "rag_creative": {
+      "system": "Combina la información de los documentos con tu conocimiento sobre productos lácteos y mercado colombiano para generar respuestas creativas e insights profundos. Genera visualizaciones cuando sea apropiado.",
+      "context_prefix": "=== INFORMACIÓN DE ESTUDIOS ALPINA ===",
+      "context_suffix": "=== FIN DE INFORMACIÓN DE ESTUDIOS ===",
+      "response_format": "Proporciona análisis creativos e insights accionables. Combina datos específicos con interpretaciones estratégicas. Sugiere visualizaciones relevantes."
+    },
+    
+    "rag_hybrid": {
+      "system": "Balancea la información específica de los documentos (peso principal) con conocimiento general del sector para proporcionar análisis completos y recomendaciones estratégicas.",
+      "context_prefix": "=== DATOS ESPECÍFICOS ALPINA COLOMBIA ===",
+      "context_suffix": "=== FIN DE DATOS ESPECÍFICOS ===",
+      "response_format": "Combina datos específicos del contexto con insights del sector. Prioriza información de documentos pero complementa con conocimiento sectorial cuando añada valor."
+    },
+    
+    "multimodal": {
+      "image_analysis": "Analiza esta imagen en el contexto de investigación de mercado para Alpina. Identifica elementos relevantes como gráficos, tablas, logos, texto, y proporciona insights sobre su significado en el contexto de productos lácteos.",
+      "audio_transcription": "Transcribe y analiza este audio en el contexto de investigación de mercado. Identifica insights clave, menciones de marca, datos cuantitativos y sentiment del cliente.",
+      "chart_generation": "Genera visualizaciones de datos profesionales usando los siguientes datos de mercado para Alpina:",
+      "table_generation": "Crea tablas estructuradas y profesionales con los siguientes datos de investigación:"
+    }
+  },
+  
+  "metadata_filters": {
+    "study_types": [
+      "brand_health",
+      "communication_test", 
+      "concept_test",
+      "pack_test",
+      "usage_attitudes",
+      "segmentation",
+      "pricing",
+      "product_test",
+      "maxdiff",
+      "conjoint",
+      "tracking",
+      "general_research"
+    ],
+    
+    "years": {
+      "recent": [2023, 2024, 2025],
+      "historical": [2020, 2021, 2022],
+      "all": "any"
+    },
+    
+    "content_types": [
+      "text",
+      "table", 
+      "chart_description",
+      "executive_summary",
+      "methodology",
+      "findings",
+      "recommendations"
+    ],
+    
+    "section_types": [
+      "executive_summary",
+      "methodology", 
+      "key_findings",
+      "detailed_analysis",
+      "recommendations",
+      "appendix",
+      "demographics",
+      "brand_metrics"
+    ]
+  },
+  
+  "output_formats": {
+    "text": {
+      "max_length": 2000,
+      "include_citations": true,
+      "include_confidence": true
+    },
+    
+    "table": {
+      "max_rows": 20,
+      "format": "markdown",
+      "include_totals": true,
+      "style": "professional"
+    },
+    
+    "chart": {
+      "default_type": "bar",
+      "color_scheme": "tigo_blue",
+      "size": "1024x1024",
+      "style": "professional",
+      "include_data_labels": true
+    },
+    
+    "image": {
+      "size": "1024x1024",
+      "quality": "hd",
+      "style": "professional_corporate",
+      "brand_colors": ["#1E40AF", "#3B82F6", "#60A5FA"]
+    }
+  },
+  
+  "processing": {
+    "max_chunk_size": 1000,
+    "chunk_overlap": 100,
+    "min_similarity_threshold": 0.7,
+    "max_context_length": 8000,
+    "enable_caching": true,
+    "cache_ttl_hours": 24
+  },
+  
+  "tigo_context": {
+    "brand_positioning": "Líder en cobertura y señal en Honduras",
+    "main_competitors": ["Claro", "otros operadores menores"],
+    "key_markets": ["Tegucigalpa", "San Pedro Sula"],
+    "segments": ["Prepago (masivo)", "Postpago (premium)", "Hogar"],
+    "brand_attributes": [
+      "mejor_cobertura",
+      "señal_confiable", 
+      "tecnologia_lider",
+      "calidad_empresarial"
+    ],
+    "consumer_insights": [
+      "67% asocia Tigo con mejor señal",
+      "Liderazgo en cobertura nacional",
+      "Preferencia en segmento empresarial",
+      "Competencia en precio vs Claro"
+    ]
+  },
+  
+  "logging": {
+    "level": "INFO",
+    "include_performance": true,
+    "include_tokens": true,
+    "include_costs": true
+  }
+}

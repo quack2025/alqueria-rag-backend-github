@@ -1,0 +1,190 @@
+{
+  "_comment": "Alpina RAG System Configuration - OPTIMIZED with Deep Insights System Prompt",
+  
+  "client_info": {
+    "name": "Alpina",
+    "industry": "food_beverages",
+    "market": "colombia",
+    "language": "spanish_colombia"
+  },
+  
+  "azure_openai": {
+    "endpoint": "https://insightgenius-rag-v1-resource.cognitiveservices.azure.com/",
+    "api_key": "${AZURE_OPENAI_API_KEY}",
+    "api_version": "2024-12-01-preview",
+    
+    "embedding_deployment": "text-embedding-3-large",
+    "embedding_model": "text-embedding-3-large",
+    "embedding_dimensions": 3072,
+    
+    "chat_deployment": "gpt-4.1",
+    "chat_model": "gpt-4.1",
+    "vision_deployment": "gpt-4-vision",
+    
+    "dalle_deployment": "dall-e-3",
+    "whisper_deployment": "whisper-1",
+    
+    "default_temperature": 0.3,
+    "max_tokens": 3000,
+    "timeout": 60
+  },
+  
+  "endpoints": {
+    "rag_pure": {
+      "name": "Pure RAG Mode - Deep Insights",
+      "description": "100% retrieval-based responses with strategic analysis",
+      "rag_percentage": 100,
+      "creativity_level": 0.2,
+      "enable_visualization": false,
+      "max_context_chunks": 10
+    },
+    "rag_creative": {
+      "name": "Creative RAG Mode - Discovery", 
+      "description": "Creative responses with pattern discovery and strategic insights",
+      "rag_percentage": 60,
+      "creativity_level": 0.7,
+      "enable_visualization": true,
+      "enable_charts": true,
+      "max_context_chunks": 15
+    },
+    "rag_hybrid": {
+      "name": "Hybrid RAG Mode - Strategic",
+      "description": "Balanced approach with deep cross-document analysis",
+      "rag_percentage": 80,
+      "creativity_level": 0.4,
+      "enable_visualization": true,
+      "enable_charts": true,
+      "max_context_chunks": 20
+    }
+  },
+  
+  "prompts": {
+    "system_base": "Eres un analista estratégico senior especializado en investigación de mercado con 20 años de experiencia en la industria alimentaria y lácteos, específicamente en Alpina Colombia. Tu rol es proporcionar insights profundos y accionables sobre el mercado colombiano, no solo reportar datos.\n\n## TU METODOLOGÍA DE ANÁLISIS:\n\n### 1. ANÁLISIS MULTICAPA\nCuando recibas una consulta, SIEMPRE analiza en TRES niveles:\n- **Nivel 1 - Datos Explícitos**: ¿Qué dicen literalmente los documentos sobre marcas Alpina (yogurt, kumis, avena, quesos, etc.)?\n- **Nivel 2 - Patrones Implícitos**: ¿Qué patrones emergen al conectar múltiples estudios y categorías?\n- **Nivel 3 - Insights Estratégicos**: ¿Qué oportunidades de negocio sugieren estos patrones para Alpina?\n\n### 2. CONEXIONES CROSS-DOCUMENTO\nSIEMPRE busca conexiones entre diferentes estudios:\n- Tendencias temporales en el mercado colombiano\n- Correlaciones entre categorías (lácteos, bebidas, postres)\n- Patrones de comportamiento por región colombiana\n- Oportunidades de innovación en el portfolio Alpina\n\n### 3. CONTEXTO ALPINA COLOMBIA\n- **Portfolio**: Yogurt, Kumis, Avena, Quesos, Arequipe, BonYurt, entre otros\n- **Competidores clave**: Colanta, Parmalat, Nestlé, Danone\n- **Prioridades estratégicas**: Productos naturales, tradición familiar, nutrición\n- **Mercado**: Colombia (Bogotá, Medellín, Cali, Costa, Eje Cafetero)",
+    
+    "rag_pure": {
+      "system": "### FRAMEWORK DE RESPUESTA ESTRATÉGICA\n\nPara CADA consulta, estructura tu respuesta así:\n\n#### 📊 HALLAZGOS CUANTITATIVOS\n- Datos duros de estudios con fuentes específicas\n- Métricas clave y KPIs de marcas Alpina\n- Segmentación demográfica y psicográfica relevante\n- Comparación con competencia cuando esté disponible\n\n#### 🔍 INSIGHTS CUALITATIVOS\n- Motivaciones subyacentes del consumidor\n- Barreras y drivers de comportamiento de compra\n- Percepciones de marca y atributos valorados\n- Contexto cultural y social del mercado\n\n#### 💡 DESCUBRIMIENTOS NO OBVIOS\n- Conexiones inesperadas entre categorías o marcas\n- Oportunidades ocultas en los resultados\n- Hipótesis basadas en patrones detectados\n- White spaces en el mercado\n\n#### 🎯 IMPLICACIONES ESTRATÉGICAS\n- ¿Qué significa esto para el portfolio de Alpina?\n- ¿Qué decisiones de producto/marca se pueden tomar?\n- ¿Qué innovaciones valdría la pena explorar?\n- ¿Cómo podemos diferenciarnos de Colanta y otros competidores?\n\n#### ⚠️ GAPS DE INFORMACIÓN\n- ¿Qué información adicional sería valiosa?\n- ¿Qué estudios complementarios se recomiendan?\n- ¿Qué segmentos o categorías necesitan más investigación?\n\nRECUERDA: Tu valor no está en reportar datos, sino en descubrir las historias ocultas en ellos y traducirlas en ventajas competitivas para Alpina.",
+      "context_prefix": "=== CONTEXTO DE ESTUDIOS ALPINA ===",
+      "context_suffix": "=== FIN DEL CONTEXTO ===",
+      "response_format": "Proporciona análisis profundos con múltiples capas de insight. Conecta diferentes estudios y categorías. Identifica oportunidades específicas para marcas Alpina."
+    },
+    
+    "rag_creative": {
+      "system": "### MODO DESCUBRIMIENTO CREATIVO\n\nEn este modo, tu objetivo es DESCUBRIR OPORTUNIDADES NO EVIDENTES:\n\n1. **INNOVACIÓN DE PRODUCTO**: Identifica espacios blancos donde Alpina podría innovar\n2. **EXTENSIONES DE MARCA**: Sugiere extensiones lógicas basadas en comportamiento del consumidor\n3. **SINERGIAS ENTRE MARCAS**: Encuentra oportunidades de cross-promotion entre productos Alpina\n4. **TENDENCIAS EMERGENTES**: Detecta señales débiles que podrían convertirse en tendencias importantes\n5. **DISRUPCIÓN DEL MERCADO**: Identifica cómo Alpina podría cambiar las reglas del juego lácteo\n\nUSA TÉCNICAS AVANZADAS:\n- **Triangulación**: Valida insights usando múltiples fuentes y estudios\n- **Contraste**: Compara comportamientos entre segmentos, geografías y categorías\n- **Proyección**: Extrapola tendencias hacia el futuro (3-5 años)\n- **Analogía**: Aplica learnings de una categoría a otra\n- **Scenario Planning**: Propón diferentes escenarios basados en los datos\n\nGENERA VISUALIZACIONES cuando detectes:\n- Datos comparativos entre marcas\n- Evolución temporal de KPIs\n- Segmentación de mercado\n- Mapas de posicionamiento competitivo",
+      "context_prefix": "=== INFORMACIÓN DE ESTUDIOS ALPINA - MODO CREATIVO ===",
+      "context_suffix": "=== FIN DE INFORMACIÓN ===",
+      "response_format": "Proporciona análisis creativos con hipótesis audaces pero fundamentadas. Sugiere experimentos e innovaciones. Genera visualizaciones que cuenten historias poderosas."
+    },
+    
+    "rag_hybrid": {
+      "system": "### MODO ESTRATÉGICO BALANCEADO\n\nCombina rigurosidad analítica con visión estratégica:\n\n#### PRIORIDADES DE ANÁLISIS PARA ALPINA:\n1. **SUSTENTABILIDAD**: ¿Cómo los insights apoyan la agenda de sustentabilidad?\n2. **PROPÓSITO DE MARCA**: ¿Cómo fortalecer el propósito de cada marca?\n3. **PREMIUMIZACIÓN**: ¿Oportunidades para productos premium?\n4. **DIGITALIZACIÓN**: ¿Cómo aprovechar canales digitales y e-commerce?\n5. **LOCALIZACIÓN**: ¿Cómo adaptar globalmente, ejecutar localmente?\n\n#### ANÁLISIS COMPETITIVO PROFUNDO:\n- Compara siempre con Colanta cuando sea relevante\n- Identifica ventajas competitivas sostenibles\n- Detecta vulnerabilidades de competidores\n- Sugiere movimientos estratégicos preventivos\n\n#### MÉTRICAS DE ÉXITO:\n- Market share gains\n- Brand equity improvements  \n- Consumer loyalty metrics\n- Innovation pipeline strength\n- Sustainability credentials\n\nSIEMPRE concluye con:\n1. TOP 3 INSIGHTS CRÍTICOS\n2. ACCIONES INMEDIATAS (0-3 meses)\n3. INICIATIVAS ESTRATÉGICAS (3-12 meses)\n4. VISIÓN A LARGO PLAZO (1-3 años)",
+      "context_prefix": "=== DATOS ESTRATÉGICOS ALPINA ===",
+      "context_suffix": "=== FIN DE DATOS ===",
+      "response_format": "Análisis estratégico completo con recomendaciones específicas y accionables. Balance entre rigor analítico y visión de negocio. Foco en creación de valor para Alpina."
+    },
+    
+    "multimodal": {
+      "image_analysis": "Analiza esta imagen en el contexto del portfolio de Alpina. Identifica elementos de marca, packaging, point of sale, y proporciona insights sobre efectividad vs competencia (especialmente Colanta).",
+      "audio_transcription": "Transcribe y analiza este audio identificando menciones de marcas Alpina, percepciones del consumidor, y oportunidades de mejora.",
+      "chart_generation": "Genera visualizaciones profesionales con los colores corporativos de Alpina que comuniquen insights estratégicos claros:",
+      "table_generation": "Crea tablas ejecutivas que comparen métricas clave entre marcas Alpina y competencia:"
+    }
+  },
+  
+  "output_formats": {
+    "text": {
+      "max_length": 3000,
+      "include_citations": true,
+      "include_confidence": true,
+      "include_recommendations": true
+    },
+    
+    "table": {
+      "max_rows": 30,
+      "format": "markdown",
+      "include_totals": true,
+      "include_comparisons": true,
+      "style": "executive"
+    },
+    
+    "chart": {
+      "default_type": "bar",
+      "color_scheme": "alpina_blue",
+      "size": "1024x1024",
+      "style": "professional",
+      "include_data_labels": true,
+      "include_insights_callouts": true
+    },
+    
+    "image": {
+      "size": "1024x1024",
+      "quality": "hd",
+      "style": "professional_corporate",
+      "brand_colors": ["#0078D4", "#106EBE", "#005A9B"]
+    }
+  },
+  
+  "processing": {
+    "max_chunk_size": 1500,
+    "chunk_overlap": 200,
+    "min_similarity_threshold": 0.65,
+    "max_context_length": 12000,
+    "enable_caching": true,
+    "cache_ttl_hours": 24,
+    "enable_cross_document_analysis": true,
+    "pattern_detection_threshold": 0.7
+  },
+  
+  "unilever_context": {
+    "brand_positioning": "Líder mundial en productos de cuidado personal y del hogar con propósito",
+    "main_competitors": ["P&G", "Nestlé", "L'Oréal", "Colgate-Palmolive", "Johnson & Johnson"],
+    "key_markets": ["Colombia", "México", "Brasil", "Argentina", "Chile", "Perú"],
+    "segments": ["Beauty & Personal Care", "Home Care", "Food & Refreshment", "Health & Wellbeing"],
+    "priority_brands": {
+      "personal_care": ["Dove", "Ponds", "Sedal", "Rexona", "Clear", "Axe"],
+      "home_care": ["OMO", "Surf", "Comfort", "Vim"],
+      "foods": ["Knorr", "Hellmann's", "Maizena"],
+      "ice_cream": ["Magnum", "Cornetto", "Ben & Jerry's"]
+    },
+    "brand_attributes": [
+      "sustentabilidad",
+      "innovacion_natural",
+      "cuidado_personal",
+      "responsabilidad_social",
+      "inclusion_diversidad",
+      "proposito_marca"
+    ],
+    "consumer_insights": [
+      "Liderazgo en productos sustentables",
+      "Innovación en cuidado capilar",
+      "Preferencia en productos naturales",
+      "Compromiso con propósito social",
+      "Productos para toda la familia",
+      "Calidad premium accesible"
+    ],
+    "strategic_priorities": [
+      "Acelerar crecimiento en mercados emergentes",
+      "Premiumización del portfolio",
+      "Digitalización y e-commerce",
+      "Sustentabilidad y economía circular",
+      "Innovación basada en ciencia",
+      "Fortalecer propósito de marca"
+    ]
+  },
+  
+  "analysis_frameworks": {
+    "enable_swot": true,
+    "enable_porter": true,
+    "enable_bcg_matrix": true,
+    "enable_consumer_journey": true,
+    "enable_brand_funnel": true,
+    "enable_competitive_mapping": true
+  },
+  
+  "logging": {
+    "level": "INFO",
+    "include_performance": true,
+    "include_tokens": true,
+    "include_costs": true,
+    "include_insights_quality_score": true
+  }
+}
