@@ -51,7 +51,7 @@ class AzureSearchVectorStore:
         # Azure AI Search configuration - use environment variables for production
         self.search_service = os.getenv("AZURE_SEARCH_SERVICE", "insightgenius-search")
         self.search_key = os.getenv("AZURE_SEARCH_KEY")
-        self.index_name = os.getenv("AZURE_SEARCH_INDEX", "alpina-documents-complete")
+        self.index_name = os.getenv("AZURE_SEARCH_INDEX", "alqueria-rag-index")
         
         # Update API key from environment variable for production
         api_key = os.getenv("AZURE_OPENAI_API_KEY", self.azure_config["api_key"])

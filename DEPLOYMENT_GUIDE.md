@@ -38,9 +38,9 @@ En el dashboard de Railway, configura:
 
 ```env
 AZURE_OPENAI_API_KEY=tu-azure-openai-key
-AZURE_SEARCH_SERVICE=tu-servicio-search
+AZURE_SEARCH_SERVICE=insightgenius-search
 AZURE_SEARCH_KEY=tu-api-key-search
-AZURE_SEARCH_INDEX=alqueria-index
+AZURE_SEARCH_INDEX=alqueria-rag-index
 CLIENT_NAME=Alquería
 CONFIG_FILE=alqueria_config.json
 ```

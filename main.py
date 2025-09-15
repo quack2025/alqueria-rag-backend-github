@@ -32,6 +32,9 @@ from core.data_exporter import RAGDataExporter
 from core.system_configuration import SystemConfigurationManager
 from personas.persona_system import ComprehensivePersonaSystem
 
+# Import Alquería specific endpoints
+from alqueria_endpoints import router as alqueria_router
+
 
 # Pydantic models for API
 class MultimodalQuery(BaseModel):
@@ -404,8 +407,8 @@ class AlpinaRAGSystem:
 
 # Initialize FastAPI app
 app = FastAPI(
-    title="Tigo Honduras Multimodal RAG System",
-    description="Advanced RAG system with multimodal input/output capabilities for Tigo Honduras market research",
+    title="Alquería RAG System",
+    description="Advanced RAG system with multimodal input/output capabilities for Alquería dairy market research in Colombia",
     version="1.0.0"
 )
 
@@ -420,15 +423,18 @@ app.add_middleware(
         "http://127.0.0.1:5173",
         "http://127.0.0.1:5183",
         "https://fnsuuhugvepxvizpbrnq.supabase.co",
-        "https://tigo-frontend-lovable.vercel.app",
+        "https://alqueria-frontend.vercel.app",  # Frontend Alquería
         "https://insightgenius-vercel.vercel.app",  # Frontend v1.0 en Vercel
-        "https://tigo.insightgenius.io",  # Dominio personalizado futuro
+        "https://alqueria.insightgenius.io",  # Dominio personalizado Alquería
         "*"  # Para desarrollo - remover en producción
     ],
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
+
+# Include Alquería specific endpoints
+app.include_router(alqueria_router)
 
 # Initialize RAG system
 def initialize_rag_system():
