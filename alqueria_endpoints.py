@@ -94,7 +94,7 @@ class IndexStats(BaseModel):
 
 # Endpoints principales
 @router.post("/search", response_model=AlqueriaSearchResponse)
-async def search_alqueria_data(request: AlqueriaSearchRequest):
+def search_alqueria_data(request: AlqueriaSearchRequest):
     """
     Búsqueda principal en los datos de Alquería
 
@@ -110,26 +110,77 @@ async def search_alqueria_data(request: AlqueriaSearchRequest):
     try:
         # Importar aquí para evitar circular imports
         from core.azure_search_vector_store import AzureSearchVectorStore
-        from core.system_configuration import SystemConfigurationManager
+        import json
 
-        # Inicializar componentes
-        config_manager = SystemConfigurationManager()
-        config = config_manager.load_client_config("alqueria_config.json")
+        # Cargar configuración de Alquería
+        config_path = "config/alqueria_config.json"
+        try:
+            with open(config_path, 'r', encoding='utf-8') as f:
+                config = json.load(f)
+        except FileNotFoundError:
+            raise HTTPException(
+                status_code=500,
+                detail=f"Archivo de configuración no encontrado: {config_path}"
+            )
+        except json.JSONDecodeError as e:
+            raise HTTPException(
+                status_code=500,
+                detail=f"Error al parsear configuración: {str(e)}"
+            )
 
         vector_store = AzureSearchVectorStore(config)
 
-        # Realizar búsqueda híbrida
-        search_results = await vector_store.hybrid_search(
+        # Realizar búsqueda vectorial
+        max_results = request.options.get("max_results", 10)
+        search_documents = vector_store.similarity_search(
             query=request.query,
-            filters=request.filters,
-            max_results=request.options.get("max_results", 10)
+            k=max_results,
+            filter_metadata=request.filters or {}
         )
 
-        # Generar respuesta RAG
-        llm_response = await vector_store.generate_rag_response(
-            query=request.query,
-            search_results=search_results,
-            temperature=request.options.get("temperature", 0.7)
+        # Convertir a formato de respuesta esperado
+        search_results = []
+        for doc in search_documents:
+            result = SearchResult(
+                id=doc.id,
+                content=doc.content,
+                score=doc.score,
+                document_metadata=DocumentMetadata(
+                    document_name=doc.metadata.get("document_name", "Unknown"),
+                    document_type=doc.metadata.get("document_type", "unknown"),
+                    provider=[doc.metadata.get("provider", "unknown")],
+                    study_period=[doc.metadata.get("study_period", "unknown")],
+                    sample_size=doc.metadata.get("sample_size", 0),
+                    methodology=[doc.metadata.get("methodology", "unknown")],
+                    target_audience=doc.metadata.get("target_audience", ""),
+                    competitive_brands=doc.metadata.get("competitive_brands", [])
+                ),
+                chunk_metadata=ChunkMetadata(
+                    section_title=doc.metadata.get("section_title", ""),
+                    content_type=doc.metadata.get("content_type", "unknown"),
+                    key_concepts=doc.metadata.get("key_concepts", []),
+                    has_numbers=doc.metadata.get("has_numbers", False),
+                    word_count=len(doc.content.split())
+                )
+            )
+            search_results.append(result)
+
+        # Generar respuesta simple
+        answer_text = f"He encontrado {len(search_results)} resultados relacionados con tu consulta sobre '{request.query}'.\n\n"
+
+        if search_results:
+            answer_text += "**Información encontrada:**\n"
+            for i, result in enumerate(search_results[:3], 1):
+                answer_text += f"{i}. {result.content[:200]}...\n\n"
+
+            answer_text += f"*Fuentes: {len(search_results)} documentos de estudios de Alquería*"
+        else:
+            answer_text += "No se encontraron resultados específicos en los documentos de Alquería para esta consulta."
+
+        llm_response = LLMResponse(
+            answer=answer_text,
+            confidence=0.8 if search_results else 0.3,
+            sources_used=len(search_results)
         )
 
         # Calcular tiempo de procesamiento
