@@ -147,13 +147,13 @@ class SyntheticChatQuery(BaseModel):
     conversation_history: List[Dict[str, Any]] = Field([], description="Previous conversation messages")
     creativity_level: int = Field(75, description="Creativity level (0-100)")
     language: str = Field("spanish", description="Response language")
-    cultural_context: str = Field("honduras", description="Cultural context")
+    cultural_context: str = Field("colombia", description="Cultural context")
 
 
-class AlpinaRAGSystem:
-    """Main Alpina RAG System"""
-    
-    def __init__(self, config_path: str = "config/alpina_config.json"):
+class AlqueriaRAGSystem:
+    """Main Alquería RAG System"""
+
+    def __init__(self, config_path: str = "config/alqueria_config.json"):
         # Load configuration
         self.config = self._load_config(config_path)
         
@@ -170,8 +170,8 @@ class AlpinaRAGSystem:
         
         # Azure AI Search is always connected - no local loading needed
         
-        print("🚀 Alpina RAG System initialized")
-        print(f"   📊 Vector store: Azure AI Search with 151 documents")
+        print("🚀 Alquería RAG System initialized")
+        print(f"   📊 Vector store: Azure AI Search with 734 documents")
         print(f"   🎯 RAG Endpoints: rag-pure, rag-creative, rag-hybrid")
         print(f"   👥 Persona Endpoints: persona-chat, persona-survey, persona-focus-group, persona-validate")
     
@@ -187,10 +187,10 @@ class AlpinaRAGSystem:
             # Use default configuration from environment variables
             return {
                 "client_info": {
-                    "name": "Tigo Honduras",
-                    "industry": "telecommunications",
-                    "market": "honduras",
-                    "language": "spanish_honduras"
+                    "name": "Alquería Colombia",
+                    "industry": "dairy_foods",
+                    "market": "colombia",
+                    "language": "spanish_colombia"
                 },
                 "azure_openai": {
                     "endpoint": "https://insightgenius-rag-v1-resource.cognitiveservices.azure.com/",
@@ -381,7 +381,7 @@ class AlpinaRAGSystem:
         
         return {
             "system_info": {
-                "name": "Tigo Honduras Multimodal RAG",
+                "name": "Alquería Colombia Multimodal RAG",
                 "version": "1.0.0",
                 "client": self.config["client_info"]["name"],
                 "industry": self.config["client_info"]["industry"]
@@ -449,7 +449,7 @@ def initialize_rag_system():
             print("🔄 Running in minimal mode without full RAG functionality")
             return None
             
-        rag_system = AlpinaRAGSystem()
+        rag_system = AlqueriaRAGSystem()
         print("✅ RAG system initialization successful")
         return rag_system
         
@@ -1172,7 +1172,7 @@ async def enhanced_persona_generation_endpoint(query: EnhancedPersonaGenerationQ
 async def enhanced_persona_chat_endpoint(query: EnhancedChatQuery):
     """
     Enhanced Persona Chat with Temperature Optimization and Temporal Context
-    Uses hierarchical temperature sampling and current Honduras context integration
+    Uses hierarchical temperature sampling and current Colombia context integration
     """
     if not rag_system:
         raise HTTPException(status_code=503, detail="RAG system not initialized")
@@ -1665,7 +1665,7 @@ async def synthetic_archetype_chat(query: SyntheticChatQuery):
         CONTEXTO PERSONAL:
         - Edad: {query.evaluation_context.get('persona_context', {}).get('age', 35)} años
         - Ocupación: {query.evaluation_context.get('persona_context', {}).get('occupation', 'Trabajador')}
-        - Ciudad: {query.evaluation_context.get('persona_context', {}).get('city', 'Honduras')}
+        - Ciudad: {query.evaluation_context.get('persona_context', {}).get('city', 'Bogotá')}
         - Ingresos: L{query.evaluation_context.get('persona_context', {}).get('monthly_income', 15000)} mensuales
         
         CONTEXTO DE EVALUACIÓN:
@@ -1773,7 +1773,7 @@ async def synthetic_archetype_chat(query: SyntheticChatQuery):
 @app.post("/api/generate-image")
 async def generate_image_endpoint(request: dict):
     """
-    Generate image using DALL-E 3 for Tigo Honduras creative content
+    Generate image using DALL-E 3 for Alquería Colombia creative content
     """
     try:
         # Validate request
@@ -1788,8 +1788,8 @@ async def generate_image_endpoint(request: dict):
         # Get Azure OpenAI configuration
         azure_config = rag_system.config["azure_openai"]
         
-        # Prepare enhanced prompt for Tigo Honduras
-        enhanced_prompt = f"{prompt}. Professional corporate style for Tigo Honduras telecommunications company, blue and white brand colors, high quality, modern design."
+        # Prepare enhanced prompt for Alquería Colombia
+        enhanced_prompt = f"{prompt}. Professional corporate style for Alquería Colombia dairy company, green and white brand colors, high quality, modern design."
         
         # Call DALL-E 3 API
         import requests
@@ -1829,7 +1829,7 @@ async def generate_image_endpoint(request: dict):
                     "size": payload["size"],
                     "quality": payload["quality"],
                     "style": payload["style"],
-                    "brand_context": "Tigo Honduras"
+                    "brand_context": "Alquería Colombia"
                 }
             }
         else:

@@ -18,7 +18,13 @@ class PromptManager:
     def __init__(self, config: Dict[str, Any]):
         self.config = config
         self.base_prompts = config["prompts"]
-        self.tigo_context = config["tigo_context"]
+        # COMPATIBILITY FIX: Handle both tigo_context and alqueria_context
+        self.tigo_context = config.get("tigo_context", config.get("alqueria_context", {
+            "brand_positioning": "Empresa líder",
+            "main_competitors": [],
+            "key_markets": [],
+            "segments": []
+        }))
         self.metadata_filters = config["metadata_filters"]
         
         # Custom prompt templates storage

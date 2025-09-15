@@ -21,7 +21,13 @@ class MultimodalOutputGenerator:
         self.config = config
         self.azure_config = config["azure_openai"]
         self.output_formats = config["output_formats"]
-        self.tigo_context = config["tigo_context"]
+        # COMPATIBILITY FIX: Handle both tigo_context and alqueria_context
+        self.tigo_context = config.get("tigo_context", config.get("alqueria_context", {
+            "brand_positioning": "Empresa líder",
+            "main_competitors": [],
+            "key_markets": [],
+            "segments": []
+        }))
         
         # Tigo brand colors
         self.brand_colors = {
