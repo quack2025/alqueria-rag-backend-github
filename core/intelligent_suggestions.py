@@ -1,6 +1,6 @@
 # core/intelligent_suggestions.py
 """
-Sistema de Sugerencias Inteligentes para RAG de Tigo Honduras
+Sistema de Sugerencias Inteligentes para RAG de Alquería Colombia
 Propone acciones de seguimiento basadas en el contenido de la respuesta
 """
 
@@ -28,43 +28,50 @@ class IntelligentSuggestionEngine:
                 r"(femenino.*?\d+%)"
             ],
             "geographic": [
-                r"(Tegucigalpa.*?\d+%)",
-                r"(San Pedro Sula.*?\d+%)",
+                r"(Bogotá.*?\d+%)",
+                r"(Medellín.*?\d+%)",
+                r"(Cali.*?\d+%)",
+                r"(Costa Atlántica.*?\d+%)",
+                r"(Eje Cafetero.*?\d+%)",
                 r"(ciudades?.*?\d+%)",
-                r"(ubicación.*?\d+%)",
                 r"(región.*?\d+%)"
             ],
             "market_share": [
-                r"(Tigo.*?\d+%)",
-                r"(Claro.*?\d+%)",
+                r"(Alquería.*?\d+%)",
+                r"(Alpina.*?\d+%)",
+                r"(Colanta.*?\d+%)",
                 r"(competencia.*?\d+%)",
                 r"(marca.*?\d+%)",
                 r"(liderazgo.*?\d+%)"
             ],
-            "services": [
-                r"(prepago.*?\d+%)",
-                r"(postpago.*?\d+%)",
-                r"(planes?.*?\d+%)",
-                r"(servicios?.*?\d+%)"
+            "products": [
+                r"(leche.*?\d+%)",
+                r"(yogurt.*?\d+%)",
+                r"(queso.*?\d+%)",
+                r"(mantequilla.*?\d+%)",
+                r"(crema.*?\d+%)",
+                r"(lácteo.*?\d+%)"
             ],
-            "technology": [
-                r"(smartphones?.*?\d+%)",
-                r"(Samsung.*?\d+%)",
-                r"(iPhone.*?\d+%)",
-                r"(gaming.*?\d+%)",
-                r"(internet.*?\d+%)"
+            "nutrition": [
+                r"(proteína.*?\d+%)",
+                r"(probiótico.*?\d+%)",
+                r"(deslactosad.*?\d+%)",
+                r"(orgánic.*?\d+%)",
+                r"(natural.*?\d+%)",
+                r"(funcional.*?\d+%)"
             ]
         }
         
         # Palabras clave para detectar temas profundizables
         self.deep_dive_keywords = {
-            "competition": ["claro", "competencia", "vs", "comparación"],
-            "demographics": ["jóvenes", "edad", "género", "segmento"],
-            "geography": ["tegucigalpa", "san pedro sula", "ciudades", "región"],
-            "products": ["prepago", "postpago", "planes", "servicios"],
-            "technology": ["smartphone", "gaming", "internet", "aplicaciones"],
-            "marketing": ["campaña", "publicidad", "recordación", "mensaje"],
-            "satisfaction": ["satisfacción", "experiencia", "calidad", "percepción"]
+            "competition": ["alpina", "colanta", "parmalat", "nestlé", "danone", "competencia", "vs", "comparación"],
+            "demographics": ["jóvenes", "edad", "género", "segmento", "consumidor", "hogares", "familias"],
+            "geography": ["bogotá", "medellín", "cali", "costa atlántica", "eje cafetero", "región", "colombia"],
+            "products": ["leche", "yogurt", "yogur", "queso", "lácteo", "mantequilla", "crema", "arequipe", "kumis"],
+            "nutrition": ["proteína", "probiótico", "deslactosada", "orgánico", "natural", "funcional", "calcio", "vitamina"],
+            "marketing": ["campaña", "publicidad", "recordación", "mensaje", "marca", "tradición", "premium"],
+            "satisfaction": ["satisfacción", "experiencia", "calidad", "percepción", "premium", "frescura"],
+            "sustainability": ["sostenible", "sostenibilidad", "orgánico", "natural", "ecológico", "carbono neutro"]
         }
         
         # Templates de sugerencias
@@ -76,29 +83,45 @@ class IntelligentSuggestionEngine:
                 "table": "¿Necesitas una tabla detallada con los datos de {topic}?"
             },
             "deep_dive": {
-                "competition": "¿Quieres profundizar en el análisis competitivo con Claro?",
+                "competition": "¿Quieres profundizar en el análisis competitivo con Alpina y Colanta?",
                 "demographics": "¿Te interesa un análisis más detallado del perfil demográfico?",
                 "geography": "¿Quieres explorar las diferencias regionales en más detalle?",
-                "products": "¿Necesitas comparar el desempeño de diferentes servicios?",
-                "technology": "¿Te gustaría analizar los hábitos tecnológicos en profundidad?",
+                "products": "¿Necesitas comparar el desempeño de diferentes productos lácteos?",
+                "nutrition": "¿Te gustaría analizar los aspectos nutricionales y funcionales en profundidad?",
                 "marketing": "¿Quieres revisar el performance de campañas específicas?",
-                "satisfaction": "¿Te interesa analizar drivers de satisfacción del cliente?"
+                "satisfaction": "¿Te interesa analizar drivers de satisfacción del cliente?",
+                "sustainability": "¿Quieres explorar oportunidades de sostenibilidad en el portafolio lácteo?"
             },
             "related_queries": {
                 "competition": [
-                    "¿Cuáles son las ventajas competitivas de Tigo vs Claro?",
-                    "¿Cómo perciben los usuarios la calidad de señal de cada operador?",
-                    "¿Qué estrategias de precio están usando los competidores?"
+                    "¿Cuáles son las ventajas competitivas de Alquería vs Alpina y Colanta?",
+                    "¿Cómo perciben los consumidores la calidad de los productos lácteos de cada marca?",
+                    "¿Qué estrategias de precio están usando los competidores en lácteos premium?"
                 ],
                 "demographics": [
-                    "¿Cómo varían las preferencias por grupo de edad?",
-                    "¿Hay diferencias de comportamiento entre hombres y mujeres?",
-                    "¿Qué segmentos tienen mayor potencial de crecimiento?"
+                    "¿Cómo varían las preferencias de lácteos por grupo de edad?",
+                    "¿Hay diferencias de consumo lácteo entre hombres y mujeres?",
+                    "¿Qué segmentos tienen mayor potencial de crecimiento en lácteos funcionales?"
                 ],
                 "geography": [
-                    "¿Cuál es la penetración de Tigo por ciudad?",
-                    "¿Hay diferencias de preferencias entre regiones?",
-                    "¿Dónde están las mayores oportunidades de expansión?"
+                    "¿Cuál es la penetración de productos Alquería por ciudad colombiana?",
+                    "¿Hay diferencias de preferencias lácteas entre regiones?",
+                    "¿Dónde están las mayores oportunidades de expansión para lácteos premium?"
+                ],
+                "products": [
+                    "¿Qué productos lácteos tienen mayor potencial de innovación?",
+                    "¿Cómo se compara el desempeño de leche vs yogurt vs quesos?",
+                    "¿Qué nuevas categorías lácteas podría explorar Alquería?"
+                ],
+                "nutrition": [
+                    "¿Qué beneficios nutricionales valoran más los consumidores?",
+                    "¿Hay oportunidad en lácteos funcionales con probióticos?",
+                    "¿Cómo está evolucionando la demanda de productos deslactosados?"
+                ],
+                "sustainability": [
+                    "¿Qué iniciativas de sostenibilidad valoran los consumidores?",
+                    "¿Cómo puede Alquería liderar en lácteos sostenibles?",
+                    "¿Hay oportunidad en empaques eco-amigables para lácteos?"
                 ]
             }
         }
